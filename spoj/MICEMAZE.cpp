@@ -19,5 +19,7 @@ int main() {
     freopen("E:\\cp-clion\\input.inp", "r", stdin);
 #endif
 
+
+
 	return 0;
 }
