@@ -1,3 +1,6 @@
+//
+// Created by Nguyen Quang Phu on 8/12/2022.
+//
 #include <bits/stdc++.h>
 #define all(a) (a).begin(), (a).end()
 #define pb push_back
@@ -41,6 +44,22 @@ int main() {
 #ifndef ONLINE_JUDGE
     freopen("E:\\cp-clion\\input.inp", "r", stdin); // custom
 #endif
+
+    int n, m;
+    cin >> n >> m;
+    vii g(n + 1);
+    for (int i = 0; i < m; ++i) {
+        int u, v;
+        cin >> u >> v;
+        g[u].pb(v);
+        g[v].pb(u);
+    }
+
+    const ll inf = (ll)1e18;
+
+    vector<ll> d(n + 1, inf);
+    d[1] = 0;
+
 
 	return 0;
 }

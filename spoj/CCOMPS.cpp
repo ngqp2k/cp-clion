@@ -1,3 +1,6 @@
+//
+// Created by Nguyen Quang Phu on 8/12/2022.
+//
 #include <bits/stdc++.h>
 #define all(a) (a).begin(), (a).end()
 #define pb push_back
@@ -38,9 +41,42 @@ typedef vector<vector<int>> vii;
 int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(nullptr);
-#ifndef ONLINE_JUDGE
-    freopen("E:\\cp-clion\\input.inp", "r", stdin); // custom
-#endif
+
+    int n, m;
+    cin >> n >> m;
+    vii g(n);
+    for (int i = 0; i < m; ++i) {
+        int u, v;
+        cin >> u >> v;
+        u--, v--;
+        g[u].pb(v);
+        g[v].pb(u);
+    }
+
+    vi vis(n, 0);
+    auto dfs = [&] (int x) {
+        vis[x] = 1;
+        stack<int> st;
+        st.push(x);
+        while (!st.empty()) {
+            int u = st.top();
+            st.pop();
+            for (int v: g[u])
+                if (!vis[v]) {
+                    vis[v] = 1;
+                    st.push(v);
+                }
+        }
+    };
+    int ans = 0;
+    for (int i = 0; i < n; ++i)
+        if (!vis[i]) {
+            ans++;
+            dfs(i);
+        }
+
+    cout << ans << '\n';
+
 
 	return 0;
 }

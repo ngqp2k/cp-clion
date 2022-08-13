@@ -9,9 +9,6 @@
 #define mp make_pair
 using namespace std;
 
-typedef long long ll;
-typedef pair<int, int> II;
-
 void __print(int x) {cerr << x;}
 void __print(long x) {cerr << x;}
 void __print(long long x) {cerr << x;}
@@ -36,42 +33,48 @@ void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr << ", "; _print(v..
 
 #define dbg(x...) cerr << "[" << #x << "] = ["; _print(x)
 
+typedef long long ll;
+typedef pair<int, int> ii;
+typedef vector<int> vi;
+typedef vector<vector<int>> vii;
+
 int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(nullptr);
 #ifndef ONLINE_JUDGE
-    freopen("E:\\cp-clion\\input.inp", "r", stdin);
+    freopen("E:\\cp-clion\\input.inp", "r", stdin); // custom
 #endif
 
     int n, m, s; cin >> n >> m >> s;
-    vector<vector<II>> g(n);
+    vector<vector<ii>> g(n);
     for (int i = 0; i < m; ++i) {
         int u, v, x; cin >> u >> v >> x;
-        g[u].pb(II(v, x));
+        g[u].pb(ii(v, x));
     }
+    vector<bool> vis(n, 0);
     const int inf = 1e9;
-    vector<II> d(n);
-    for (int i = 0; i < n; ++i)
-        d[i].fi = inf, d[i].se = i;
-    d[s].fi = 0;
-    priority_queue<II, vector<II>, greater<II>> qu;
-    qu.push(d[s]);
+    vi d(n, inf);
+    d[s] = 0;
+    priority_queue<ii, vector<ii>, greater<ii>> qu;
+    qu.push(ii(d[s], s));
     while (!qu.empty()) {
-        auto p = qu.top();
+        int u = qu.top().se;
         qu.pop();
-        for (auto v: g[p.se]) {
-
+        if (vis[u]) continue;
+        vis[u] = 1;
+        for (auto v: g[u]) {
+            if (d[v.fi] > d[u] + v.se) {
+                d[v.fi] = d[u] + v.se;
+                qu.push(ii(d[v.fi], v.fi));
+            }
         }
-
-        ;
     }
 
-    for (auto p: d) {
-        if (p.fi == inf)
-            cout << "-1\n";
+    for (int i: d)
+        if (i != inf)
+            cout << i << '\n';
         else
-            cout << p.se << '\n';
-    }
+            cout << "-1\n";
 
 	return 0;
 }
